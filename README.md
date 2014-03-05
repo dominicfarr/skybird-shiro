@@ -15,10 +15,6 @@ http://localhost:8888/web/secure-web.html (secure via log in form, username/pass
 
 http://localhost:8888/api/api.html secure (secure via basic auth, username/password = dom/password)
 
-[added to show where shiro stores the principal object in the session]
-
-http://localhost:8888/web/showPrincipal.jsp secure (secure via basic auth, username/password = dom/password)
-
 
 Curling API without Authorization header 401 will be returned.
 
@@ -88,4 +84,7 @@ Curling API with Authorization header
 
 
 
+shows where shiro stores the principal object in the session
+----
 
+http://localhost:8888/web/showPrincipal.jsp secure (secure via basic auth, username/password = dom/password)
