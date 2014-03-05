@@ -87,4 +87,4 @@ Curling API with Authorization header
 shows where shiro stores the principal object in the session
 ----
 
-http://localhost:8888/web/showPrincipal.jsp secure (secure via basic auth, username/password = dom/password)
+http://localhost:8888/web/showPrincipal.jsp secure (username/password = dom/password)
