@@ -1,90 +1,50 @@
-skybird-shiro
-=============
+Shiro Security Basic Examples
+=============================
 
-example web secured by shiro that uses two types of authentication one being basic auth
+This project is to help users of the shiro user forum is simple questions.
 
-to run.
+Each url helps a specific question asked on the forum.
+
+By no means is this code to be taken literally, it is just for demonstration purposes. There are many bad practices in this project that should not be used in real code.
+
+
+Web Server
+----------
+
+This is a maven project, with an embedded jetty plugin.
+
+To start jetty and the web application use maven command
 
 `mvn jetty:run`
 
-open browser to http://localhost:8888/
+Web application locations
+-------------------------
 
-http://localhost:8888/index.html (unsecure)
+Use a browser to see anonymous and authenticated web pages.
 
-http://localhost:8888/web/secure-web.html (secure via log in form, username/password = dom/password)
+**Welcome page** [http://localhost:8888/](http://localhost:8888/) No authentication required.
 
-http://localhost:8888/api/api.html secure (secure via basic auth, username/password = dom/password)
+**Secured page** [http://localhost:8888/web/secure-web.html](http://localhost:8888/web/secure-web.html) 
 
+Secured page requres an Authenticated subject. If the current subject isn't authenticated then the browser is required to  the Login page. 
 
-Curling API without Authorization header 401 will be returned.
+- Username = dom
+- Password = password
 
-    curl -v http://localhost:8888/api/api.html
+After successful authentication, the browser is required back to the Secure page.
 
-    Adding handle: conn: 0x7fbc99803a00
-    Adding handle: send: 0
-    Adding handle: recv: 0
-    Curl_addHandleToPipeline: length: 1
-    - Conn 0 (0x7fbc99803a00) send_pipe: 1, recv_pipe: 0
-    About to connect() to localhost port 8888 (#0)
-      Trying ::1...
-    Connected to localhost (::1) port 8888 (#0)
-    GET /api/api.html HTTP/1.1
-    User-Agent: curl/7.30.0
-    Host: localhost:8888
-    Accept: */*
-
-    HTTP/1.1 401 Unauthorized
-    WWW-Authenticate: BASIC realm="application"
-    Content-Length: 0
-    Server Jetty(8.1.12.v20130726) is not blacklisted
-    Server: Jetty(8.1.12.v20130726)
-
-    Connection #0 to host localhost left intact
+**Show principle page** [http://localhost:8888/web/showPrincipal.jsp](http://localhost:8888/web/showPrincipal.jsp) Requires an authenticated subject. It shows the principle stored in the session. This jsp page uses JSP expression, which I would recommend against use normally. 
 
 
-Curling API with Authorization header
+Webservice locations
+--------------------
 
+A com.sun.jersey.spi.container.servlet.ServletContainer is set up to provide two GET endpoints. Using curl or other tools these endpoints can be used. These endpoints don't require authentication. 
 
-    curl -v -H "Authorization: basic ZG9tOnBhc3N3b3Jk" http://localhost:8888/api/api.html
+Set a message ("It's ME!") into the session. (Again, this is very poor code, don't use GET for changing things. POST or PUT are much better)
 
-    Adding handle: conn: 0x7fbe6a003a00
-    Adding handle: send: 0
-    Adding handle: recv: 0
-    Curl_addHandleToPipeline: length: 1
-    - Conn 0 (0x7fbe6a003a00) send_pipe: 1, recv_pipe: 0
-    About to connect() to localhost port 8888 (#0)
-      Trying ::1...
-    Connected to localhost (::1) port 8888 (#0)
-    GET /api/api.html HTTP/1.1
-    User-Agent: curl/7.30.0
-    Host: localhost:8888
-    Accept: */*
-    Authorization: basic ZG9tOnBhc3N3b3Jk
+`curl http://localhost:8888/jersey/message/set`
 
-    HTTP/1.1 200 OK
-    Set-Cookie: JSESSIONID=45f08f8b-9823-44a3-9418-d638fe6484e7; Path=/; HttpOnly
-    Set-Cookie: rememberMe=deleteMe; Path=/; Max-Age=0; Expires=Sun, 02-Mar-2014 09:21:25 GMT
-    Content-Type: text/html
-    Last-Modified: Mon, 03 Mar 2014 08:37:48 GMT
-    Content-Length: 136
-    Accept-Ranges: bytes
-    Server Jetty(8.1.12.v20130726) is not blacklisted
-    Server: Jetty(8.1.12.v20130726)
+Get the message from the session, if it is set.
 
-    Connection #0 to host localhost left intact
-
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>api</title>
-    </head>
-    <body>
-         <h1>this page represents the api endpoints</h1>
-    </body>
-
-
-
-shows where shiro stores the principal object in the session
-----
-
-http://localhost:8888/web/showPrincipal.jsp secure (username/password = dom/password)
+`curl http://localhost:8888/jersey/message`
