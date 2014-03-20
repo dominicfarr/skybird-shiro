@@ -35,6 +35,7 @@ After successful authentication, the browser is required back to the Secure page
 
 **Show principle page** [http://localhost:8888/web/showPrincipal.jsp](http://localhost:8888/web/showPrincipal.jsp) Requires an authenticated subject. It shows the principle stored in the session. This jsp page uses JSP expression, which I would recommend against use normally. 
 
+**Preserve Hash id** [http://localhost:8888/web/workspace.html#documents](http://localhost:8888/web/workspace.html#documents) Requires an authenticated subject. It will preserve the hash id #document in the url after redirect to log in page.
 
 Webservice locations
 --------------------
