@@ -53,9 +53,17 @@ Get the message from the session, if it is set.
 
 Extensions
 ----------
-src/main/java/domfarr/filter/PreserveFormOnFailureFormAuthenticationFilter.java extends to put the form data into the request on log in failure.
+[PreserveFormOnFailureFormAuthenticationFilter](src/main/java/domfarr/filter/PreserveFormOnFailureFormAuthenticationFilter.java) extends the standard FormAuthenticationFilter. It now puts the username back into the request on login failure.
 
-shiro.ini is change to use this filter inplace of the standard FormAuthenticationFilter.
+```
+@Override
+protected void setFailureAttribute(ServletRequest request, AuthenticationException ae) {
+    super.setFailureAttribute(request, ae);
+    request.setAttribute(getUsernameParam(), request.getParameter(getUsernameParam()));
+}
+```
 
+```
 [main]
 authc = domfarr.filter.PreserveFormOnFailureFormAuthenticationFilter
+```
