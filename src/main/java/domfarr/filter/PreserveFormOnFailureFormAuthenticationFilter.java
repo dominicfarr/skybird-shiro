@@ -9,6 +9,6 @@ public class PreserveFormOnFailureFormAuthenticationFilter extends FormAuthentic
     @Override
     protected void setFailureAttribute(ServletRequest request, AuthenticationException ae) {
         super.setFailureAttribute(request, ae);
-        request.setAttribute("username", request.getParameter(getUsernameParam()));
+        request.setAttribute(getUsernameParam(), request.getParameter(getUsernameParam()));
     }
 }
