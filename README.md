@@ -49,3 +49,13 @@ Set a message ("It's ME!") into the session. (Again, this is very poor code, don
 Get the message from the session, if it is set.
 
 `curl http://localhost:8888/jersey/message`
+
+
+Extensions
+----------
+src/main/java/domfarr/filter/PreserveFormOnFailureFormAuthenticationFilter.java extends to put the form data into the request on log in failure.
+
+shiro.ini is change to use this filter inplace of the standard FormAuthenticationFilter.
+
+[main]
+authc = domfarr.filter.PreserveFormOnFailureFormAuthenticationFilter
